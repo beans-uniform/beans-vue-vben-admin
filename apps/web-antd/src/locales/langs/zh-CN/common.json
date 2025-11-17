@@ -1,0 +1,18 @@
+{
+  "yes": "是",
+  "no": "否",
+  "phone": "手机号",
+  "email": "邮箱",
+  "nickname": "昵称",
+  "username": "用户名",
+  "id": "ID",
+  "status": "状态",
+  "avatar": "头像",
+  "operation": "操作",
+  "createTime": "创建时间",
+  "description": "描述",
+  "invalid": {
+    "phone": "手机号格式不正确",
+    "email": "邮箱格式不正确"
+  }
+}

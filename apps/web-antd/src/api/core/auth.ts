@@ -16,29 +16,43 @@ export namespace AuthApi {
     data: string;
     status: number;
   }
+
+  export interface AuthInfo {
+    id: number;
+    username: string;
+    nickname: string;
+    avatar: string;
+    email: string;
+    phone: string;
+    role_ids: number[];
+    roles: string[];
+  }
 }
 
 /**
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data);
+  return requestClient.post<AuthApi.LoginResult>('/system/auth/login', data);
 }
 
 /**
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh', {
-    withCredentials: true,
-  });
+  return baseRequestClient.post<AuthApi.RefreshTokenResult>(
+    '/system/auth/refresh',
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/auth/logout', {
+  return baseRequestClient.post('/system/auth/logout', {
     withCredentials: true,
   });
 }
@@ -47,5 +61,13 @@ export async function logoutApi() {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/codes');
+  return [];
+  // return requestClient.get<string[]>('/system/auth/codes');
+}
+
+/**
+ * 获取用户权限信息
+ */
+export async function getAuthInfoApi() {
+  return requestClient.get<AuthApi.AuthInfo>('/system/auth/info');
 }

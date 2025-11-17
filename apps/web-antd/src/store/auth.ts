@@ -1,5 +1,7 @@
 import type { Recordable, UserInfo } from '@vben/types';
 
+import type { AuthApi } from '#/api/core/auth';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -10,7 +12,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { getAccessCodesApi, getAuthInfoApi, loginApi, logoutApi } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -98,10 +100,22 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchUserInfo() {
-    let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfoApi();
+    // let userInfo: null | UserInfo = null;
+    // userInfo = await getUserInfoApi();
+    const authInfo: AuthApi.AuthInfo = await getAuthInfoApi();
+    const userInfo = {
+      avatar: authInfo.avatar,
+      nickname: authInfo.nickname,
+      email: authInfo.email,
+      phone: authInfo.phone,
+      role_ids: authInfo.role_ids,
+      username: authInfo.username,
+      userId: authInfo.id.toString(),
+      roles: authInfo.roles,
+      homePath: preferences.app.defaultHomePath,
+    } as any;
     userStore.setUserInfo(userInfo);
-    return userInfo;
+    return userInfo as UserInfo;
   }
 
   function $reset() {
